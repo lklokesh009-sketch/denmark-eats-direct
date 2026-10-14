@@ -14,13 +14,128 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      branches: {
+        Row: {
+          address: string
+          id: number
+          name: string
+          owner_id: string | null
+          phone: string
+        }
+        Insert: {
+          address?: string
+          id: number
+          name: string
+          owner_id?: string | null
+          phone?: string
+        }
+        Update: {
+          address?: string
+          id?: number
+          name?: string
+          owner_id?: string | null
+          phone?: string
+        }
+        Relationships: []
+      }
+      menu_items: {
+        Row: {
+          available: boolean
+          branch_id: number
+          category: string
+          created_at: string
+          description: string
+          id: string
+          name: string
+          price: number
+        }
+        Insert: {
+          available?: boolean
+          branch_id: number
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          name: string
+          price: number
+        }
+        Update: {
+          available?: boolean
+          branch_id?: number
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          name?: string
+          price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "menu_items_branch_id_fkey"
+            columns: ["branch_id"]
+            isOneToOne: false
+            referencedRelation: "branches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          address: string
+          branch_id: number
+          created_at: string
+          customer_name: string
+          customer_phone: string
+          id: string
+          items: Json
+          order_no: number
+          service_type: string
+          status: string
+          total: number
+        }
+        Insert: {
+          address?: string
+          branch_id: number
+          created_at?: string
+          customer_name: string
+          customer_phone: string
+          id?: string
+          items: Json
+          order_no?: number
+          service_type: string
+          status?: string
+          total: number
+        }
+        Update: {
+          address?: string
+          branch_id?: number
+          created_at?: string
+          customer_name?: string
+          customer_phone?: string
+          id?: string
+          items?: Json
+          order_no?: number
+          service_type?: string
+          status?: string
+          total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_branch_id_fkey"
+            columns: ["branch_id"]
+            isOneToOne: false
+            referencedRelation: "branches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      claim_branch: { Args: { _branch: number }; Returns: boolean }
+      is_branch_owner: { Args: { _branch: number }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
